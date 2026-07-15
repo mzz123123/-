@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>给我一次机会嘛</title>
+    <style>
+        body {
+            background-color: #fce4ec; /* 浅粉色背景 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Microsoft YaHei', sans-serif;
+            overflow: hidden; 
+        }
+        #gif-container {
+            margin-bottom: 20px;
+            height: 250px; /* 固定高度防止图片切换时页面抖动 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #gif-container img {
+            width: 250px; 
+            border-radius: 15px;
+        }
+        h1 {
+            color: #d81b60;
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        .buttons {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #yes-btn {
+            background-color: #e91e63; /* 红色按钮 */
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            font-size: 32px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        #no-btn {
+            background-color: #7986cb; /* 蓝色按钮 */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            margin-left: 280px; 
+            transition: left 0.1s, top 0.1s; 
+        }
+    </style>
+</head>
+<body>
+
+    <div id="gif-container">
+        <img id="main-image" src="sad.gif" alt="小狗">
+    </div>
+
+    <h1 id="question">宝宝，可以和我好嘛</h1>
+
+    <div class="buttons">
+        <button id="yes-btn">可以</button>
+        <button id="no-btn">不要</button>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('no-btn');
+        const yesBtn = document.getElementById('yes-btn');
+        const question = document.getElementById('question');
+        const mainImage = document.getElementById('main-image');
+
+        // 这里全部换成了和你代码同一目录下的本地图片文件名
+        const sadImg = "sad.gif"; 
+        const cryImg = "cry.gif"; 
+        const happyImg = "happy.gif"; 
+
+        const noTexts = [
+            "不要", "我偏不", "拜托拜托", "下次不这样了T^T",
+            "以后都听你的", "我都给你花"
+        ];
+        let textIndex = 0;
+        let hoverCount = 0; 
+
+        noBtn.addEventListener('mouseover', function() {
+            hoverCount++;
+
+            // 躲避 3 次换成大哭图片
+            if (hoverCount >= 3) {
+                mainImage.src = cryImg;
+            }
+
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+
+            const randomX = Math.random() * (windowWidth - btnWidth);
+            const randomY = Math.random() * (windowHeight - btnHeight);
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+
+            textIndex = (textIndex + 1) % noTexts.length;
+            noBtn.innerText = noTexts[textIndex];
+        });
+
+        yesBtn.addEventListener('click', function() {
+            question.innerText = "最喜欢宝宝了！！(>_<)♡";
+            yesBtn.style.display = 'none';
+            noBtn.style.display = 'none';
+            // 点击可以后换成开心图片
+            mainImage.src = happyImg; 
+        });
+    </script>
+</body>
+</html>
